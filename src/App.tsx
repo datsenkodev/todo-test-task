@@ -1,27 +1,13 @@
-import { useState } from 'react';
+import { Stack } from '@mui/material';
 
-import { Container, Typography } from '@mui/material';
+import { Todos } from './components/Todos';
+import { CompletedTodos } from './components/CompletedTodos';
 
-import { TodoList } from './components/TodoList';
-import { AddTodo } from './components/AddTodo';
-
-function App() {
+export function App() {
   return (
-    <Container
-      maxWidth='sm'
-      sx={{
-        mx: 'auto',
-        backgroundColor: '#fafafa',
-        padding: '2rem',
-        borderRadius: '10px',
-      }}>
-      <Typography component='h1' sx={{ color: 'black' }}>
-        DatsenkoDev
-      </Typography>
-      <AddTodo />
-      <TodoList />
-    </Container>
+    <Stack spacing={1} direction='row' sx={{ width: '900px' }}>
+      <Todos />
+      <CompletedTodos />
+    </Stack>
   );
 }
-
-export default App;

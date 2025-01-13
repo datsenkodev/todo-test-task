@@ -1,55 +1,64 @@
-import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
-import { useQueryClient } from '@tanstack/react-query';
+import { FC } from 'react';
+import { Checkbox, Paper, Stack, Typography } from '@mui/material';
+import { useSelectedTodo } from '../context/SelectedTodoContext';
+import TokenIcon from '@mui/icons-material/Token';
 
 import { useTodos } from '../hooks/getData';
-import { useDeleteData } from '../hooks/deleteData';
-import { Checkbox, Paper, Stack } from '@mui/material';
+import { TodoItem } from '../types/types';
 
-interface ComponentProps {
-  // title: string;
-}
+export const TodoList: FC = () => {
+  const { data: todos, error, isLoading } = useTodos();
 
-interface TodoItem {
-  id: number;
-  name: string;
-  isComplete: boolean;
-}
-
-export const TodoList: FC<ComponentProps> = () => {
-  const { data: users, error, isLoading } = useTodos();
-  const { mutate: deleteItem } = useDeleteData();
-  const queryClient = useQueryClient();
-
-  const handleDeleteItem = (id: number) => {
-    deleteItem(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['todos'] });
-      },
-    });
-  };
+  const [selectedTodoItems, toggleTodoSelection] = useSelectedTodo();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    console.log(error.message);
+  }
+
+  const incompleteTodos = todos?.filter((todo: TodoItem) => !todo.isComplete) || [];
+
+  if (incompleteTodos.length === 0) {
+    return (
+      <Stack
+        sx={{
+          maxHeight: '50svh',
+          minHeight: '13rem',
+          padding: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'black',
+          my: 8,
+        }}>
+        <TokenIcon />
+        <Typography variant='h5'>To do list is empty</Typography>
+        <Typography>So you're good at solving tasks )</Typography>
+      </Stack>
+    );
   }
 
   return (
     <Stack
       spacing={1}
       sx={{ maxHeight: '50svh', minHeight: '20rem', overflowY: 'scroll', padding: 2 }}>
-      {users.map((todo: TodoItem) => (
-        <Paper
-          elevation={10}
-          key={todo.id}
-          sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {todo.name}
-          <Checkbox onClick={() => handleDeleteItem(todo.id)} />
-        </Paper>
-      ))}
+      {incompleteTodos &&
+        incompleteTodos.map((todo: TodoItem) => (
+          <Paper
+            elevation={10}
+            key={todo.id}
+            square={false}
+            sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+            onClick={() => toggleTodoSelection(todo)}>
+            {todo.name}
+            <Checkbox checked={selectedTodoItems.some((item: TodoItem) => item.id === todo.id)} />
+          </Paper>
+        ))}
     </Stack>
   );
 };

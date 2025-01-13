@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { FC, useState, FormEvent } from 'react';
+import { Box, Button, TextField, Tooltip } from '@mui/material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -12,7 +12,7 @@ export const AddTodo: FC = () => {
 
   const queryClient = useQueryClient();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     addTodo(
       { name: inputValue, isComplete: false },
@@ -31,21 +31,34 @@ export const AddTodo: FC = () => {
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         gap: '1rem',
         my: '1rem',
       }}>
       <TextField
-        placeholder='Enter new to do'
+        label='Welcome'
+        placeholder='Enter new goal'
         required
         autoFocus
+        fullWidth
         id='outlined-basic'
-        variant='outlined'
+        variant='standard'
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        sx={{
+          '& .MuiInputBase-input': {
+            color: 'white',
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white',
+          },
+        }}
       />
-      <Button type='submit'>
-        <AddBoxRoundedIcon sx={{ fontSize: '3rem' }} />
-      </Button>
+      <Tooltip title='Add new item' placement='left'>
+        <Button type='submit'>
+          <AddBoxRoundedIcon sx={{ fontSize: '3rem', color: 'white' }} />
+        </Button>
+      </Tooltip>
     </Box>
   );
 };

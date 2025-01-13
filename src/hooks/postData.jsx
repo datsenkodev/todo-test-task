@@ -7,3 +7,10 @@ export const usePostData = () => {
     mutationFn: (newTodo) => apiClient.post('/todoitems', newTodo),
   });
 };
+
+export const useChangeStatus = () => {
+  return useMutation({
+    mutationKey: ['changeStatus'],
+    mutationFn: (id) => apiClient.put(`/todoitems/${id}`, { IsComplete: true }),
+  });
+};

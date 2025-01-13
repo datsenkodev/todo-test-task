@@ -42,20 +42,21 @@ public class TodoItemsController : ControllerBase
         return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem(long id, TodoItem todoItem)
+[HttpPut("{id}")]
+public async Task<IActionResult> PutTodoItem(long id, TodoItemUpdateModel updateModel)
+{
+    var existingTodoItem = await _context.TodoItems.FindAsync(id);
+    if (existingTodoItem == null)
     {
-        if (id != todoItem.Id)
-        {
-            return BadRequest();
-        }
-
-        _context.Entry(todoItem).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        return NotFound();
     }
 
+    existingTodoItem.IsComplete = updateModel.IsComplete;
+
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
      [HttpDelete("{id}")]
      public async Task<IActionResult> DeleteTodoItem(long id)
      {
