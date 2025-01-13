@@ -34,3 +34,4 @@ C:\Users\Token\OneDrive\Documents\GitHub\todo-test-task\TodoApi\obj\Debug\net9.0
 C:\Users\Token\OneDrive\Documents\GitHub\todo-test-task\TodoApi\obj\Debug\net9.0\TodoApi.pdb
 C:\Users\Token\OneDrive\Documents\GitHub\todo-test-task\TodoApi\obj\Debug\net9.0\TodoApi.genruntimeconfig.cache
 C:\Users\Token\OneDrive\Documents\GitHub\todo-test-task\TodoApi\obj\Debug\net9.0\ref\TodoApi.dll
+C:\Users\Token\OneDrive\Documents\GitHub\todo-test-task\TodoApi\obj\Debug\net9.0\TodoApi.sourcelink.json
