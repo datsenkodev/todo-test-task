@@ -8,6 +8,7 @@ import { useChangeStatus } from '../hooks/postData';
 import { useSelectedTodo } from '../context/SelectedTodoContext';
 
 export const ActionButtons: FC = () => {
+  // eslint-disable-next-line no-unused-vars
   const [selectedTodoItems, toggleTodoSelection, clearSelectedTodoItems] = useSelectedTodo();
   const { mutate: deleteItem } = useDeleteData();
   const { mutate: changeStatus } = useChangeStatus();
